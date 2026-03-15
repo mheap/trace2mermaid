@@ -1,0 +1,7 @@
+gantt
+    title Trace nosvc999
+    dateFormat YYYY-MM-DD
+
+    section unknown
+    handle-request                                :crit, 2000-01-01, 500d
+    do-work                                       :2000-04-10, 300d

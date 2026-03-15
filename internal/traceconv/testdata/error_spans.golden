@@ -1,0 +1,12 @@
+gantt
+    title Trace err456trace
+    dateFormat YYYY-MM-DD
+
+    section Gateway
+    POST /api/order                               :crit, 2000-01-01, 800d
+    validate-input                                :2000-02-20, 100d
+    call-order-service                            :done, 2000-07-19, 550d
+
+    section Order Service
+    create-order                                  :done, 2000-09-07, 450d
+    db.insert orders                              :done, 2000-10-27, 380d

@@ -1,0 +1,122 @@
+project_name: trace2mermaid
+
+env:
+  - GO111MODULE=on
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: trace2mermaid
+    binary: trace2mermaid
+    main: .
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+    flags:
+      - -trimpath
+
+archives:
+  - id: trace2mermaid
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+      - LICENSE
+
+checksum:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
+  algorithm: sha256
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
+      - Merge pull request
+      - Merge branch
+
+brews:
+  - repository:
+      owner: mheap
+      name: homebrew-tap
+      token: "{{ .Env.GH_PAT }}"
+    directory: Casks
+    homepage: https://github.com/mheap/trace2mermaid
+    description: CLI for converting OpenTelemetry traces to Mermaid Gantt diagrams
+    license: MIT
+    install: |
+      bin.install "trace2mermaid"
+    test: |
+      assert_match version.to_s, shell_output("#{bin}/trace2mermaid --version")
+
+dockers:
+  - image_templates:
+      - "mheap/trace2mermaid:{{ .Version }}-amd64"
+      - "mheap/trace2mermaid:latest-amd64"
+    use: buildx
+    dockerfile: Dockerfile.goreleaser
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source=https://github.com/mheap/trace2mermaid"
+    goarch: amd64
+
+  - image_templates:
+      - "mheap/trace2mermaid:{{ .Version }}-arm64"
+      - "mheap/trace2mermaid:latest-arm64"
+    use: buildx
+    dockerfile: Dockerfile.goreleaser
+    build_flag_templates:
+      - "--platform=linux/arm64"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source=https://github.com/mheap/trace2mermaid"
+    goarch: arm64
+
+docker_manifests:
+  - name_template: mheap/trace2mermaid:{{ .Version }}
+    image_templates:
+      - mheap/trace2mermaid:{{ .Version }}-amd64
+      - mheap/trace2mermaid:{{ .Version }}-arm64
+
+  - name_template: mheap/trace2mermaid:{{ .Major }}.{{ .Minor }}
+    image_templates:
+      - mheap/trace2mermaid:{{ .Version }}-amd64
+      - mheap/trace2mermaid:{{ .Version }}-arm64
+
+  - name_template: mheap/trace2mermaid:latest
+    image_templates:
+      - mheap/trace2mermaid:latest-amd64
+      - mheap/trace2mermaid:latest-arm64
+
+release:
+  github:
+    owner: mheap
+    name: trace2mermaid
+  draft: false
+  prerelease: auto
+  mode: replace
+  name_template: "{{ .ProjectName }} {{ .Version }}"

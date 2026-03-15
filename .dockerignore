@@ -1,0 +1,45 @@
+# Build artifacts
+dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+trace2mermaid
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.goreleaser.yml
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+*.test
+*.out
+coverage.txt
+coverage.out
+
+# Dependencies
+vendor/
+
+# Misc
+tmp/
+temp/

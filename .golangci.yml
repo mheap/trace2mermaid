@@ -1,0 +1,63 @@
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+  allow-parallel-runners: true
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+
+  settings:
+    gofmt:
+      simplify: true
+
+    goimports:
+      local-prefixes:
+        - github.com/mheap/trace2mermaid
+
+linters:
+  default: none
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - misspell
+    - goconst
+    - gocyclo
+    - dupl
+    - revive
+    - gosec
+
+  settings:
+    govet:
+      enable:
+        - shadow
+
+    gocyclo:
+      min-complexity: 15
+
+    misspell:
+      locale: UK
+
+    gosec:
+      excludes: []
+
+  exclusions:
+    presets: []
+    rules:
+      - path: _test\.go
+        linters:
+          - gocyclo
+          - gosec
+          - dupl
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  new: false

@@ -1,0 +1,9 @@
+gantt
+    title Trace single123
+    dateFormat YYYY-MM-DD
+
+    section Worker
+    process-batch                                 :crit, 2000-01-01, 2000d
+    fetch-items                                   :2000-04-10, 400d
+    transform                                     :2001-08-23, 600d
+    save-results                                  :2003-07-24, 600d
