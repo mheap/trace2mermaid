@@ -1,0 +1,19 @@
+gantt
+    title Trace abc123def456
+    dateFormat YYYY-MM-DD
+
+    section Frontend
+    /checkout                                     :crit, 2000-01-01, 1500d
+    GET /api/session                              :2000-05-30, 170d
+    POST /api/analytics                           :2000-07-09, 70d
+    GET /api/checkout/state                       :2000-07-19, 500d
+
+    section API Service
+    /api/checkout/state                           :2000-08-28, 440d
+    cache.get session#58;[redacted]               :2000-12-26, 10d
+    db.query select from users                    :2001-01-05, 20d
+    http.request GET http#58;//payments/poll      :2001-03-26, 210d
+
+    section Payment Service
+    /poll                                         :2001-04-15, 180d
+    db.query select from payment                  :2001-05-05, 30d

@@ -1,0 +1,8 @@
+gantt
+    title Trace esc789
+    dateFormat YYYY-MM-DD
+
+    section CacheService
+    handle-request                                :crit, 2000-01-01, 1000d
+    cache.get key#58;value#59;extra               :2000-04-10, 400d
+    db#58;query#59;select                         :2001-05-15, 400d

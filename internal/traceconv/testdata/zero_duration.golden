@@ -1,0 +1,8 @@
+gantt
+    title Trace zero123
+    dateFormat YYYY-MM-DD
+
+    section FastService
+    root-op                                       :crit, 2000-01-01, 1000d
+    instant-cache-hit                             :2000-04-10, 1d
+    normal-op                                     :2000-07-19, 300d
