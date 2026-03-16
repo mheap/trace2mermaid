@@ -116,8 +116,31 @@ func spanTag(s ServiceSpan) string {
 
 // escapeMermaid escapes characters that are special in Mermaid syntax.
 func escapeMermaid(name string) string {
-	// Mermaid uses colon as delimiter, semicolon in entity refs
-	name = strings.ReplaceAll(name, ";", "#59;")
-	name = strings.ReplaceAll(name, ":", "#58;")
-	return name
+	delimiters := map[rune]bool{
+		';': true,
+		'#': true,
+		'(': true,
+		')': true,
+		'[': true,
+		']': true,
+		'{': true,
+		'}': true,
+		'|': true,
+		'>': true,
+		'<': true,
+		'"': true,
+		':': true,
+	}
+
+	var ret strings.Builder
+	for _, c := range name {
+		if !delimiters[c] {
+			ret.WriteString(string(c))
+			continue
+		}
+
+		fmt.Fprintf(&ret, "#%d;", c)
+	}
+
+	return ret.String()
 }

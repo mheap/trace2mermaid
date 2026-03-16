@@ -110,9 +110,9 @@ gantt
 
     section API Service
     /api/checkout/state                           :2000-08-28, 440d
-    cache.get session [redacted]                  :2000-12-26, 10d
+    cache.get session#58;#91;redacted#93;         :2000-12-26, 10d
     db.query select from users                    :2001-01-05, 20d
-    http.request GET http://payments/poll         :2001-03-26, 210d
+    http.request GET http#58;//payments/poll      :2001-03-26, 210d
 
     section Payment Service
     /poll                                         :2001-04-15, 180d
